@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,20 +16,21 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/category_toggle"
         android:checked="true"
+        android:onClick="addFunnyClicked"
         android:textColor="@android:drawable/screen_background_light"
         android:textOff="funny"
         android:textOn="funny"
         app:layout_constraintEnd_toStartOf="@+id/addSeriousBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:onClick="addFunnyClicked" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
         android:id="@+id/addSeriousBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/category_toggle"
+        android:onClick="addSeriousClicked"
         android:textColor="@android:drawable/screen_background_light"
         android:textOff="serious"
         android:textOn="serious"
@@ -36,8 +38,7 @@
         app:layout_constraintEnd_toStartOf="@+id/addCrazyBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/addFunnyBtn"
-        app:layout_constraintTop_toTopOf="@+id/addFunnyBtn"
-        tools:onClick="addSeriousClicked" />
+        app:layout_constraintTop_toTopOf="@+id/addFunnyBtn" />
 
     <ToggleButton
         android:id="@+id/addCrazyBtn"
@@ -46,6 +47,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/category_toggle"
+        android:onClick="addCrazyClicked"
         android:textColor="@android:drawable/screen_background_light"
         android:textOff="crazy"
         android:textOn="crazy"
@@ -53,8 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/addSeriousBtn"
-        app:layout_constraintTop_toTopOf="@+id/addSeriousBtn"
-        tools:onClick="addCrazyClicked" />
+        app:layout_constraintTop_toTopOf="@+id/addSeriousBtn" />
 
     <EditText
         android:id="@+id/addUsernameTxt"
@@ -96,11 +97,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorAccent"
+        android:onClick="addPostClicked"
         android:text="Post"
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addThoughtTxt"
-        tools:onClick="addPostClicked" />
+        app:layout_constraintTop_toBottomOf="@+id/addThoughtTxt" />
 </android.support.constraint.ConstraintLayout>
