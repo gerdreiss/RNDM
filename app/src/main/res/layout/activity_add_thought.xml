@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddThoughtActivity">
+
+    <ToggleButton
+        android:id="@+id/addFunnyBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/category_toggle"
+        android:checked="true"
+        android:textColor="@android:drawable/screen_background_light"
+        android:textOff="funny"
+        android:textOn="funny"
+        app:layout_constraintEnd_toStartOf="@+id/addSeriousBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:onClick="addFunnyClicked" />
+
+    <ToggleButton
+        android:id="@+id/addSeriousBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/category_toggle"
+        android:textColor="@android:drawable/screen_background_light"
+        android:textOff="serious"
+        android:textOn="serious"
+        app:layout_constraintBottom_toBottomOf="@+id/addFunnyBtn"
+        app:layout_constraintEnd_toStartOf="@+id/addCrazyBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addFunnyBtn"
+        app:layout_constraintTop_toTopOf="@+id/addFunnyBtn"
+        tools:onClick="addSeriousClicked" />
+
+    <ToggleButton
+        android:id="@+id/addCrazyBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/category_toggle"
+        android:textColor="@android:drawable/screen_background_light"
+        android:textOff="crazy"
+        android:textOn="crazy"
+        app:layout_constraintBottom_toBottomOf="@+id/addSeriousBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addSeriousBtn"
+        app:layout_constraintTop_toTopOf="@+id/addSeriousBtn"
+        tools:onClick="addCrazyClicked" />
+
+    <EditText
+        android:id="@+id/addUsernameTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="username"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addSeriousBtn" />
+
+    <EditText
+        android:id="@+id/addThoughtTxt"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="top|center_vertical"
+        android:hint="my random thought"
+        android:inputType="textMultiLine"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addUsernameTxt" />
+
+    <Button
+        android:id="@+id/addPostBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorAccent"
+        android:text="Post"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addThoughtTxt"
+        tools:onClick="addPostClicked" />
+</android.support.constraint.ConstraintLayout>
