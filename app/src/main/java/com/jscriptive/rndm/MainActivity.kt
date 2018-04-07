@@ -2,21 +2,24 @@ package com.jscriptive.rndm
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    var selectedCategory: String = FUNNY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val addThoughtIntent = Intent(this, AddThoughtActivity::class.java)
             startActivity(addThoughtIntent)
         }
@@ -38,5 +41,48 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun mainFunnyClicked(view: View) {
+        if (selectedCategory == FUNNY) {
+            mainFunnyBtn.isChecked = true
+        } else {
+            mainSeriousBtn.isChecked = false
+            mainCrazyBtn.isChecked = false
+            mainPopularBtn.isChecked = false
+            selectedCategory = FUNNY
+        }
+    }
+
+    fun mainSeriousClicked(view: View) {
+        if (selectedCategory == SERIOUS) {
+            mainSeriousBtn.isChecked = true
+        } else {
+            mainFunnyBtn.isChecked = false
+            mainCrazyBtn.isChecked = false
+            mainPopularBtn.isChecked = false
+            selectedCategory = SERIOUS
+        }
+    }
+
+    fun mainCrazyClicked(view: View) {
+        if (selectedCategory == CRAZY) {
+            mainCrazyBtn.isChecked = true
+        } else {
+            mainFunnyBtn.isChecked = false
+            mainSeriousBtn.isChecked = false
+            mainPopularBtn.isChecked = false
+            selectedCategory = CRAZY
+        }
+    }
+
+    fun mainPopularClicked(view: View) {
+        if (selectedCategory == POPULAR) {
+            mainPopularBtn.isChecked = true
+        } else {
+            mainFunnyBtn.isChecked = false
+            mainSeriousBtn.isChecked = false
+            mainCrazyBtn.isChecked = false
+            selectedCategory = POPULAR
+        }
+    }
 
 }

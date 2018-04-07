@@ -7,7 +7,6 @@ import android.view.View
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_thought.*
-import java.util.*
 
 class AddThoughtActivity : AppCompatActivity() {
 

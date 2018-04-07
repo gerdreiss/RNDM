@@ -8,13 +8,83 @@
     tools:context="com.jscriptive.rndm.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <ToggleButton
+        android:id="@+id/mainFunnyBtn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/category_toggle"
+        android:checked="true"
+        android:onClick="mainFunnyClicked"
+        android:textColor="@android:color/background_light"
+        android:textOff="funny"
+        android:textOn="funny"
+        app:layout_constraintEnd_toStartOf="@+id/mainSeriousBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/mainSeriousBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/category_toggle"
+        android:textColor="@android:color/background_light"
+        android:textOff="serious"
+        android:textOn="serious"
+        app:layout_constraintBottom_toBottomOf="@+id/mainFunnyBtn"
+        app:layout_constraintEnd_toStartOf="@+id/mainCrazyBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mainFunnyBtn"
+        app:layout_constraintTop_toTopOf="@+id/mainFunnyBtn"
+        android:onClick="mainSeriousClicked"/>
+
+    <ToggleButton
+        android:id="@+id/mainCrazyBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/category_toggle"
+        android:textColor="@android:color/background_light"
+        android:textOff="crazy"
+        android:textOn="crazy"
+        app:layout_constraintBottom_toBottomOf="@+id/mainSeriousBtn"
+        app:layout_constraintEnd_toStartOf="@+id/mainPopularBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mainSeriousBtn"
+        app:layout_constraintTop_toTopOf="@+id/mainSeriousBtn"
+        android:onClick="mainCrazyClicked"/>
+
+    <ToggleButton
+        android:id="@+id/mainPopularBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/category_toggle"
+        android:onClick="mainPopularClicked"
+        android:textColor="@android:color/background_light"
+        android:textOff="popular"
+        android:textOn="popular"
+        app:layout_constraintBottom_toBottomOf="@+id/mainCrazyBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mainCrazyBtn"
+        app:layout_constraintTop_toTopOf="@+id/mainCrazyBtn" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/thoughtListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainFunnyBtn" />
 
 </android.support.constraint.ConstraintLayout>
