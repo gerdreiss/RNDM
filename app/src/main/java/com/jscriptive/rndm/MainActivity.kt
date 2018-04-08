@@ -3,6 +3,7 @@ package com.jscriptive.rndm
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity() {
 
     var selectedCategory: String = FUNNY
+    lateinit var thoughtsAdapter: ThoughtsAdapter
+    val thoughts = arrayListOf<Thought>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +26,10 @@ class MainActivity : AppCompatActivity() {
             val addThoughtIntent = Intent(this, AddThoughtActivity::class.java)
             startActivity(addThoughtIntent)
         }
+
+        thoughtsAdapter = ThoughtsAdapter(thoughts)
+        thoughtListView.adapter = thoughtsAdapter
+        thoughtListView.layoutManager = LinearLayoutManager(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
