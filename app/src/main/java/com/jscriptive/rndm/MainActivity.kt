@@ -8,18 +8,19 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    var selectedCategory: String = FUNNY
+    var selectedCategory: String = POPULAR
     lateinit var thoughtsAdapter: ThoughtsAdapter
     val thoughts = arrayListOf<Thought>()
-
     val thoughtsCollectionRef = FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
+    lateinit var thoughtsListener: ListenerRegistration
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,31 +35,51 @@ class MainActivity : AppCompatActivity() {
         thoughtsAdapter = ThoughtsAdapter(thoughts)
         thoughtListView.adapter = thoughtsAdapter
         thoughtListView.layoutManager = LinearLayoutManager(this)
+    }
 
-        thoughtsCollectionRef.get()
-                .addOnSuccessListener { snapshot ->
-                    val toughtObjects = snapshot.documents
-                            .sortedByDescending {
-                                it.data[TIMESTAMP] as Date
-                            }
-                            .map { document ->
-                                val data = document.data
-                                Thought(
-                                        documentId = document.id,
-                                        username = data[USERNAME] as String,
-                                        timestamp = data[TIMESTAMP] as Date,
-                                        thoughtTxt = data[THOUGHT_TXT] as String,
-                                        numLikes = (data[NUM_LIKES] as Long).toInt(),
-                                        numComments = (data[NUM_COMMENTS] as Long).toInt()
-                                )
-                            }
-                    thoughts.clear()
-                    thoughts.addAll(toughtObjects)
-                    thoughtsAdapter.notifyDataSetChanged()
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("Exception", "Could not add post: $exception")
-                }
+    override fun onResume() {
+        super.onResume()
+        setListener()
+    }
+
+    fun setListener() {
+        if (selectedCategory == POPULAR) {
+            thoughtsListener = thoughtsCollectionRef
+                    .orderBy(NUM_LIKES, Query.Direction.DESCENDING)
+                    .addSnapshotListener(this) { snapshot, exception ->
+                        updateViewOrLogException(snapshot, exception)
+                    }
+        } else {
+            thoughtsListener = thoughtsCollectionRef
+                    .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
+                    .whereEqualTo(CATEGORY, selectedCategory)
+                    .addSnapshotListener(this) { snapshot, exception ->
+                        updateViewOrLogException(snapshot, exception)
+                    }
+        }
+    }
+
+    private fun updateViewOrLogException(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
+        if (snapshot != null) {
+            val toughtObjects = snapshot.documents
+                    .map { document ->
+                        val data = document.data
+                        Thought(
+                                documentId = document.id,
+                                username = data[USERNAME] as String,
+                                timestamp = data[TIMESTAMP] as Date,
+                                thoughtTxt = data[THOUGHT_TXT] as String,
+                                numLikes = (data[NUM_LIKES] as Long).toInt(),
+                                numComments = (data[NUM_COMMENTS] as Long).toInt()
+                        )
+                    }
+            thoughts.clear()
+            thoughts.addAll(toughtObjects)
+            thoughtsAdapter.notifyDataSetChanged()
+        }
+        if (exception != null) {
+            Log.e("Exception", "Could not retrieve documents: $exception")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -85,6 +106,8 @@ class MainActivity : AppCompatActivity() {
             mainCrazyBtn.isChecked = false
             mainPopularBtn.isChecked = false
             selectedCategory = FUNNY
+            thoughtsListener.remove()
+            setListener()
         }
     }
 
@@ -96,6 +119,8 @@ class MainActivity : AppCompatActivity() {
             mainCrazyBtn.isChecked = false
             mainPopularBtn.isChecked = false
             selectedCategory = SERIOUS
+            thoughtsListener.remove()
+            setListener()
         }
     }
 
@@ -107,6 +132,8 @@ class MainActivity : AppCompatActivity() {
             mainSeriousBtn.isChecked = false
             mainPopularBtn.isChecked = false
             selectedCategory = CRAZY
+            thoughtsListener.remove()
+            setListener()
         }
     }
 
@@ -118,6 +145,8 @@ class MainActivity : AppCompatActivity() {
             mainSeriousBtn.isChecked = false
             mainCrazyBtn.isChecked = false
             selectedCategory = POPULAR
+            thoughtsListener.remove()
+            setListener()
         }
     }
 
