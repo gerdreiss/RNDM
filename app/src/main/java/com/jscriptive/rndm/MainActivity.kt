@@ -4,18 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     var selectedCategory: String = FUNNY
     lateinit var thoughtsAdapter: ThoughtsAdapter
     val thoughts = arrayListOf<Thought>()
+
+    val thoughtsCollectionRef = FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,31 @@ class MainActivity : AppCompatActivity() {
         thoughtsAdapter = ThoughtsAdapter(thoughts)
         thoughtListView.adapter = thoughtsAdapter
         thoughtListView.layoutManager = LinearLayoutManager(this)
+
+        thoughtsCollectionRef.get()
+                .addOnSuccessListener { snapshot ->
+                    val toughtObjects = snapshot.documents
+                            .sortedByDescending {
+                                it.data[TIMESTAMP] as Date
+                            }
+                            .map { document ->
+                                val data = document.data
+                                Thought(
+                                        documentId = document.id,
+                                        username = data[USERNAME] as String,
+                                        timestamp = data[TIMESTAMP] as Date,
+                                        thoughtTxt = data[THOUGHT_TXT] as String,
+                                        numLikes = (data[NUM_LIKES] as Long).toInt(),
+                                        numComments = (data[NUM_COMMENTS] as Long).toInt()
+                                )
+                            }
+                    thoughts.clear()
+                    thoughts.addAll(toughtObjects)
+                    thoughtsAdapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("Exception", "Could not add post: $exception")
+                }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

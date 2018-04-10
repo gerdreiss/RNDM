@@ -49,12 +49,12 @@ class AddThoughtActivity : AppCompatActivity() {
 
     fun addPostClicked(view: View) {
         val data = mapOf(
-                Pair("category", selectedCategory),
-                Pair("numComments", 0),
-                Pair("numLikes", 0),
-                Pair("thought", addThoughtTxt.text.toString()),
-                Pair("timestamp", FieldValue.serverTimestamp()),
-                Pair("username", addUsernameTxt.text.toString())
+                Pair(CATEGORY, selectedCategory),
+                Pair(NUM_COMMENTS, 0),
+                Pair(NUM_LIKES, 0),
+                Pair(THOUGHT_TXT, addThoughtTxt.text.toString()),
+                Pair(TIMESTAMP, FieldValue.serverTimestamp()),
+                Pair(USERNAME, addUsernameTxt.text.toString())
         )
 
         FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
