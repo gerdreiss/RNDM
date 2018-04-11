@@ -61,20 +61,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateViewOrLogException(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
         if (snapshot != null) {
-            val toughtObjects = snapshot.documents
-                    .map { document ->
-                        val data = document.data
-                        Thought(
-                                documentId = document.id,
-                                username = data[USERNAME] as String,
-                                timestamp = data[TIMESTAMP] as Date,
-                                thoughtTxt = data[THOUGHT_TXT] as String,
-                                numLikes = (data[NUM_LIKES] as Long).toInt(),
-                                numComments = (data[NUM_COMMENTS] as Long).toInt()
-                        )
-                    }
+            val thoughtObjects = snapshot.documents.map { document ->
+                Thought(documentId = document.id,
+                        username = document.data[USERNAME] as String,
+                        timestamp = document.data[TIMESTAMP] as Date,
+                        thoughtTxt = document.data[THOUGHT_TXT] as String,
+                        numLikes = (document.data[NUM_LIKES] as Long).toInt(),
+                        numComments = (document.data[NUM_COMMENTS] as Long).toInt())
+            }
             thoughts.clear()
-            thoughts.addAll(toughtObjects)
+            thoughts.addAll(thoughtObjects)
             thoughtsAdapter.notifyDataSetChanged()
         }
         if (exception != null) {
