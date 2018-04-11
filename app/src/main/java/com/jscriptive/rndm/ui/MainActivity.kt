@@ -1,4 +1,4 @@
-package com.jscriptive.rndm
+package com.jscriptive.rndm.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import com.jscriptive.rndm.*
+import com.jscriptive.rndm.domain.Thought
+import com.jscriptive.rndm.ui.adapter.ThoughtsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
@@ -16,10 +20,12 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     var selectedCategory: String = POPULAR
-    lateinit var thoughtsAdapter: ThoughtsAdapter
     val thoughts = arrayListOf<Thought>()
     val thoughtsCollectionRef = FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
+
+    lateinit var thoughtsAdapter: ThoughtsAdapter
     lateinit var thoughtsListener: ListenerRegistration
+    lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,11 +41,24 @@ class MainActivity : AppCompatActivity() {
         thoughtsAdapter = ThoughtsAdapter(thoughts)
         thoughtListView.adapter = thoughtsAdapter
         thoughtListView.layoutManager = LinearLayoutManager(this)
+
+        auth = FirebaseAuth.getInstance()
     }
 
     override fun onResume() {
         super.onResume()
-        setListener()
+        updateUI()
+    }
+
+    fun updateUI() {
+        if (auth.currentUser == null) {
+            enableButtons(false)
+            thoughts.clear()
+            thoughtsAdapter.notifyDataSetChanged()
+        } else {
+            enableButtons(true)
+            setListener()
+        }
     }
 
     fun setListener() {
@@ -84,14 +103,37 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val menuItem = menu.getItem(0)
+        if (auth.currentUser == null)
+            menuItem.title = "Login"
+        else
+            menuItem.title = "Logout"
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_login -> {
+                if (auth.currentUser == null)
+                    startActivity(Intent(this, LoginActivity::class.java))
+                else auth.signOut()
+                updateUI()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun enableButtons(enable: Boolean) {
+        mainFunnyBtn.isEnabled = enable
+        mainSeriousBtn.isEnabled = enable
+        mainCrazyBtn.isEnabled = enable
+        mainPopularBtn.isEnabled = enable
+        fab.isEnabled = enable
     }
 
     fun mainFunnyClicked(view: View) {

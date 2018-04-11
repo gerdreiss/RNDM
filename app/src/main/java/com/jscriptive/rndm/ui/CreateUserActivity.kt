@@ -1,4 +1,4 @@
-package com.jscriptive.rndm
+package com.jscriptive.rndm.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +8,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jscriptive.rndm.DATE_CREATED
+import com.jscriptive.rndm.R
+import com.jscriptive.rndm.USERNAME
+import com.jscriptive.rndm.USERS_REF
 import kotlinx.android.synthetic.main.activity_create_user.*
 
 class CreateUserActivity : AppCompatActivity() {

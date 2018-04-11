@@ -1,4 +1,4 @@
-package com.jscriptive.rndm
+package com.jscriptive.rndm.ui.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jscriptive.rndm.NUM_LIKES
+import com.jscriptive.rndm.R
+import com.jscriptive.rndm.THOUGHTS_REF
+import com.jscriptive.rndm.domain.Thought
 import java.text.SimpleDateFormat
 import java.util.*
 

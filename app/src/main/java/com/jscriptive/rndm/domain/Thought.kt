@@ -1,4 +1,4 @@
-package com.jscriptive.rndm
+package com.jscriptive.rndm.domain
 
 import java.util.*
 
