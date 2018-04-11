@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".AddThoughtActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".CreateUserActivity" />
     </application>
 
 </manifest>
