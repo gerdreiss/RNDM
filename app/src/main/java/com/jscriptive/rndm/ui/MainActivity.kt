@@ -38,7 +38,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(addThoughtIntent)
         }
 
-        thoughtsAdapter = ThoughtsAdapter(thoughts)
+        thoughtsAdapter = ThoughtsAdapter(thoughts) { thought ->
+            val intent = Intent(this, CommentsActivity::class.java)
+            intent.putExtra(DOCUMENT_KEY, thought.documentId)
+            startActivity(intent)
+        }
         thoughtListView.adapter = thoughtsAdapter
         thoughtListView.layoutManager = LinearLayoutManager(this)
 

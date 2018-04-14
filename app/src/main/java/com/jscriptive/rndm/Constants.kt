@@ -7,6 +7,7 @@ const val POPULAR = "popular"
 
 const val THOUGHTS_REF = "thoughts"
 const val USERS_REF = "users"
+const val COMMENTS_REF = "comments"
 
 // Fields
 const val CATEGORY = "category"
@@ -16,3 +17,7 @@ const val THOUGHT_TXT = "thought"
 const val TIMESTAMP = "timestamp"
 const val USERNAME = "username"
 const val DATE_CREATED = "dateCreated"
+const val COMMENT_TXT = "commentTxt"
+
+// Other constants
+const val DOCUMENT_KEY = "documentId"
