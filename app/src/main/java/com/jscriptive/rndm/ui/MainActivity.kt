@@ -34,8 +34,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            val addThoughtIntent = Intent(this, AddThoughtActivity::class.java)
-            startActivity(addThoughtIntent)
+            val intent = Intent(this, AddThoughtActivity::class.java)
+            intent.putExtra(SELECTED_CATEGORY, if (selectedCategory == POPULAR) FUNNY else selectedCategory)
+            startActivity(intent)
         }
 
         thoughtsAdapter = ThoughtsAdapter(thoughts) { thought ->

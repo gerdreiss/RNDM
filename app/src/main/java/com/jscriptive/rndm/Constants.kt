@@ -20,4 +20,5 @@ const val DATE_CREATED = "dateCreated"
 const val COMMENT_TXT = "commentTxt"
 
 // Other constants
+const val SELECTED_CATEGORY = "selectedCategory"
 const val DOCUMENT_KEY = "documentId"

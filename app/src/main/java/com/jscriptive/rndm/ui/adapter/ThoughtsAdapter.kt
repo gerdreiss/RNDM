@@ -39,7 +39,8 @@ class ThoughtsAdapter(
         val timestamp = itemView?.findViewById<TextView>(R.id.listViewTimestamp)
         val thoughtTxt = itemView?.findViewById<TextView>(R.id.listViewThoughtTxt)
         val numLikes = itemView?.findViewById<TextView>(R.id.listViewNumLikesLabel)
-        val likesImage = itemView?.findViewById<ImageView>(R.id.listViewImageView)
+        val numComments = itemView?.findViewById<TextView>(R.id.listViewNumCommentsLabel)
+        val likesImage = itemView?.findViewById<ImageView>(R.id.listViewImageView1)
 
         val dateFormatter = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
 
@@ -47,6 +48,7 @@ class ThoughtsAdapter(
             username?.text = thought.username
             thoughtTxt?.text = thought.thoughtTxt
             numLikes?.text = thought.numLikes.toString()
+            numComments?.text = thought.numComments.toString()
             timestamp?.text = dateFormatter.format(thought.timestamp)
             likesImage?.setOnClickListener {
                 FirebaseFirestore.getInstance()
