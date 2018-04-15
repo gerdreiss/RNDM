@@ -6,16 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jscriptive.rndm.NUM_LIKES
 import com.jscriptive.rndm.R
 import com.jscriptive.rndm.THOUGHTS_REF
+import com.jscriptive.rndm.ui.ThoughtOptionsClickListener
 import com.jscriptive.rndm.domain.Thought
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ThoughtsAdapter(
         val thoughts: ArrayList<Thought>,
+        val optionsClickListener: ThoughtOptionsClickListener,
         val itemClick: (Thought) -> Unit
 ) : RecyclerView.Adapter<ThoughtsAdapter.ViewHolder>() {
 
@@ -32,15 +35,15 @@ class ThoughtsAdapter(
         holder.bindThought(thoughts[position])
     }
 
-    inner class ViewHolder(itemView: View?,
-                           val itemClick: (Thought) -> Unit
-    ) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View?, val itemClick: (Thought) -> Unit) : RecyclerView.ViewHolder(itemView) {
+
         val username = itemView?.findViewById<TextView>(R.id.listViewUsername)
         val timestamp = itemView?.findViewById<TextView>(R.id.listViewTimestamp)
         val thoughtTxt = itemView?.findViewById<TextView>(R.id.listViewThoughtTxt)
         val numLikes = itemView?.findViewById<TextView>(R.id.listViewNumLikesLabel)
         val numComments = itemView?.findViewById<TextView>(R.id.listViewNumCommentsLabel)
-        val likesImage = itemView?.findViewById<ImageView>(R.id.listViewImageView1)
+        val likesImage = itemView?.findViewById<ImageView>(R.id.thoughtLikesImages)
+        val optionsImage = itemView?.findViewById<ImageView>(R.id.thoughtOptionsImage)
 
         val dateFormatter = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
 
@@ -57,6 +60,14 @@ class ThoughtsAdapter(
                         .update(NUM_LIKES, thought.numLikes + 1)
             }
             itemView.setOnClickListener { itemClick(thought) }
+            if (FirebaseAuth.getInstance().currentUser?.uid == thought.userId) {
+                optionsImage?.visibility = View.VISIBLE
+                optionsImage?.setOnClickListener {
+                    optionsClickListener.thoughtOptionsMenuClicked(thought)
+                }
+            } else {
+                optionsImage?.visibility = View.INVISIBLE
+            }
         }
     }
 }

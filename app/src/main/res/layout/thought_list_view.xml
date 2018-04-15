@@ -42,7 +42,7 @@
         tools:text="This is a random thought" />
 
     <ImageView
-        android:id="@+id/listViewImageView1"
+        android:id="@+id/thoughtLikesImages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -62,15 +62,15 @@
         android:layout_marginStart="16dp"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/listViewImageView1"
+        app:layout_constraintStart_toEndOf="@+id/thoughtLikesImages"
         tools:text="99" />
 
     <ImageView
-        android:id="@+id/listViewImageView2"
+        android:id="@+id/thoughtCommentsImage"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/listViewImageView1"
+        app:layout_constraintBottom_toBottomOf="@+id/thoughtLikesImages"
         app:layout_constraintStart_toEndOf="@+id/listViewNumLikesLabel"
         app:srcCompat="@drawable/commenticon" />
 
@@ -79,8 +79,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/listViewImageView1"
-        app:layout_constraintStart_toEndOf="@+id/listViewImageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/thoughtLikesImages"
+        app:layout_constraintStart_toEndOf="@+id/thoughtCommentsImage"
         tools:text="99" />
+
+    <ImageView
+        android:id="@+id/thoughtOptionsImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/listViewTimestamp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/listViewTimestamp"
+        app:srcCompat="@drawable/optionsimage" />
 
 </android.support.constraint.ConstraintLayout>

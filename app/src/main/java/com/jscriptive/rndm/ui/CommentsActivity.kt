@@ -17,7 +17,7 @@ import com.jscriptive.rndm.ui.adapter.CommentsAdapter
 import kotlinx.android.synthetic.main.activity_comments.*
 import java.util.*
 
-class CommentsActivity : AppCompatActivity() {
+class CommentsActivity : AppCompatActivity(), CommentsOptionsClickListener {
 
     lateinit var thoughtDocumentId: String
     lateinit var commentsAdapter: CommentsAdapter
@@ -28,7 +28,7 @@ class CommentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
         thoughtDocumentId = intent.getStringExtra(DOCUMENT_KEY)
-        commentsAdapter = CommentsAdapter(comments)
+        commentsAdapter = CommentsAdapter(comments, this)
         commentListView.adapter = commentsAdapter
         commentListView.layoutManager = LinearLayoutManager(this)
 
@@ -43,7 +43,9 @@ class CommentsActivity : AppCompatActivity() {
                         val commentObjects = snapshot.documents.map { document ->
                             Comment(username = document.data[USERNAME] as String,
                                     timestamp = document.data[TIMESTAMP] as Date,
-                                    commentTxt = document.data[COMMENT_TXT] as String)
+                                    commentTxt = document.data[COMMENT_TXT] as String,
+                                    documentId = thoughtDocumentId,
+                                    userId = document.data[USER_ID] as String)
                         }
                         comments.clear()
                         comments.addAll(commentObjects)
@@ -52,9 +54,8 @@ class CommentsActivity : AppCompatActivity() {
                 }
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    override fun commentOptionsMenuClicked(comment: Comment) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun addCommentClicked(view: View) {
@@ -68,10 +69,12 @@ class CommentsActivity : AppCompatActivity() {
                     transaction.update(thoughtRef, NUM_COMMENTS, numComments)
 
                     val newCommentRef = thoughtRef.collection(COMMENTS_REF).document()
+                    val currentUser = FirebaseAuth.getInstance().currentUser
                     val data = mapOf(
                             Pair(COMMENT_TXT, comment),
                             Pair(TIMESTAMP, FieldValue.serverTimestamp()),
-                            Pair(USERNAME, FirebaseAuth.getInstance().currentUser?.displayName)
+                            Pair(USERNAME, currentUser?.displayName),
+                            Pair(USER_ID, currentUser?.uid)
                     )
                     transaction.set(newCommentRef, data)
                 }

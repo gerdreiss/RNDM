@@ -17,16 +17,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), ThoughtOptionsClickListener {
     var selectedCategory: String = POPULAR
+
     val thoughts = arrayListOf<Thought>()
     val thoughtsCollectionRef = FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
-
     lateinit var thoughtsAdapter: ThoughtsAdapter
+
     lateinit var thoughtsListener: ListenerRegistration
     lateinit var auth: FirebaseAuth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        thoughtsAdapter = ThoughtsAdapter(thoughts) { thought ->
+        thoughtsAdapter = ThoughtsAdapter(thoughts, this) { thought ->
             val intent = Intent(this, CommentsActivity::class.java)
             intent.putExtra(DOCUMENT_KEY, thought.documentId)
             startActivity(intent)
@@ -48,6 +47,11 @@ class MainActivity : AppCompatActivity() {
         thoughtListView.layoutManager = LinearLayoutManager(this)
 
         auth = FirebaseAuth.getInstance()
+    }
+
+
+    override fun thoughtOptionsMenuClicked(thought: Thought) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onResume() {
@@ -91,7 +95,8 @@ class MainActivity : AppCompatActivity() {
                         timestamp = document.data[TIMESTAMP] as Date,
                         thoughtTxt = document.data[THOUGHT_TXT] as String,
                         numLikes = (document.data[NUM_LIKES] as Long).toInt(),
-                        numComments = (document.data[NUM_COMMENTS] as Long).toInt())
+                        numComments = (document.data[NUM_COMMENTS] as Long).toInt(),
+                        userId = document.data[USER_ID] as String)
             }
             thoughts.clear()
             thoughts.addAll(thoughtObjects)

@@ -8,5 +8,6 @@ data class Thought(
         val thoughtTxt: String,
         val numLikes: Int,
         val numComments: Int,
-        val documentId: String
+        val documentId: String,
+        val userId: String
 )

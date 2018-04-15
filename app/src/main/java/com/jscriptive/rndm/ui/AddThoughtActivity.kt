@@ -55,13 +55,15 @@ class AddThoughtActivity : AppCompatActivity() {
     }
 
     fun addPostClicked(view: View) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
         val data = mapOf(
                 Pair(CATEGORY, selectedCategory),
                 Pair(NUM_COMMENTS, 0),
                 Pair(NUM_LIKES, 0),
                 Pair(THOUGHT_TXT, addThoughtTxt.text.toString()),
                 Pair(TIMESTAMP, FieldValue.serverTimestamp()),
-                Pair(USERNAME, FirebaseAuth.getInstance().currentUser?.displayName)
+                Pair(USERNAME, currentUser?.displayName),
+                Pair(USER_ID, currentUser?.uid)
         )
 
         FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
